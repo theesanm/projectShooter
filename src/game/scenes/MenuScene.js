@@ -7,29 +7,32 @@ export default class MenuScene extends Phaser.Scene {
 
   create() {
     const { width, height } = this.cameras.main;
-    const movementMode = this.game.config.movementMode || 'full';
+    const movementMode = window.GAME_MOVEMENT_MODE || 'full';
 
     // Title
-    this.add.text(width / 2, height / 3, 'PROJECT SHOOTER', {
-      fontSize: '48px',
+    this.add.text(width / 2, height / 4, 'PROJECT\nSHOOTER', {
+      fontSize: '42px',
       color: '#00ff00',
-      fontStyle: 'bold'
+      fontStyle: 'bold',
+      align: 'center',
+      lineSpacing: 10
     }).setOrigin(0.5);
 
     // Instructions (change based on movement mode)
     const controls = movementMode === 'horizontal' 
-      ? 'A/D or Left/Right Arrows to Move\nSPACE to Shoot'
-      : 'WASD or Arrow Keys to Move\nSPACE to Shoot';
+      ? 'A/D or Left/Right Arrows\nto Move\n\nSPACE to Shoot'
+      : 'WASD or Arrow Keys\nto Move\n\nSPACE to Shoot';
     
     this.add.text(width / 2, height / 2, controls, {
-      fontSize: '20px',
+      fontSize: '18px',
       color: '#ffffff',
-      align: 'center'
+      align: 'center',
+      lineSpacing: 8
     }).setOrigin(0.5);
 
     // Start button
-    const startText = this.add.text(width / 2, height * 0.7, 'CLICK TO START', {
-      fontSize: '32px',
+    const startText = this.add.text(width / 2, height * 0.68, 'TAP TO START', {
+      fontSize: '28px',
       color: '#ffff00'
     }).setOrigin(0.5);
 
@@ -51,8 +54,8 @@ export default class MenuScene extends Phaser.Scene {
 
     // High score from localStorage
     const highScore = localStorage.getItem('highScore') || 0;
-    this.add.text(width / 2, height * 0.85, `High Score: ${highScore}`, {
-      fontSize: '18px',
+    this.add.text(width / 2, height * 0.88, `High Score: ${highScore}`, {
+      fontSize: '16px',
       color: '#aaaaaa'
     }).setOrigin(0.5);
   }

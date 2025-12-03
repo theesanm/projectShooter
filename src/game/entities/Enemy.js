@@ -11,7 +11,9 @@ export default class Enemy {
     this.createEnemyGraphic();
 
     this.sprite = scene.physics.add.sprite(x, y, 'enemy');
-    this.sprite.body.setSize(30, 30);
+    // Collision box matches the 30x30 enemy sprite
+    this.sprite.body.setSize(25, 25); // Slightly smaller for better gameplay
+    this.sprite.body.setOffset(2.5, 2.5); // Center it
     this.sprite.health = this.health;
   }
 
