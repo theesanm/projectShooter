@@ -4,6 +4,7 @@ import Powerup from '../entities/Powerup.js';
 import WaveManager from '../systems/WaveManager.js';
 import ProgressionManager from '../systems/ProgressionManager.js';
 import ShooterManager from '../systems/ShooterManager.js';
+import SoundManager from '../services/SoundManager.js';
 import APIService from '../../services/APIService.js';
 
 export default class GameScene extends Phaser.Scene {
@@ -11,8 +12,25 @@ export default class GameScene extends Phaser.Scene {
     super({ key: 'GameScene' });
   }
 
+  preload() {
+    console.log('[GameScene] Preload started');
+    // Create sound manager (templates loaded synchronously in constructor)
+    this.soundManager = new SoundManager(this);
+    
+    // Preload sound files
+    this.soundManager.preloadSounds();
+
+    // Load wave 1 background
+    this.load.image('wave1_background', 'assets/scenes/wave1_background.png');
+    
+    console.log('[GameScene] Preload completed');
+  }
+
   create() {
     const { width, height } = this.cameras.main;
+
+    // Add wave 1 background (behind all entities, above base background)
+    this.add.image(width / 2, height / 2, 'wave1_background').setDepth(-1);
 
     // Initialize game state
     this.score = 0;
@@ -88,26 +106,68 @@ export default class GameScene extends Phaser.Scene {
       this.hitEnemy, 
       (bullet, enemy) => {
         // Process callback - only allow collision if both are active
-        return bullet.active && enemy.active;
+        const canCollide = bullet.active && enemy.active;
+        
+        // Log all collision attempts for bosses
+        if (enemy.isBoss) {
+          const bodyEnabled = enemy.body?.enable !== false;
+          const bodyExists = !!enemy.body;
+          const inWorld = enemy.body?.world !== null && enemy.body?.world !== undefined;
+          
+          console.log('[GameScene] 🎯 Boss collision check:', {
+            canCollide,
+            bulletActive: bullet.active,
+            enemyActive: enemy.active,
+            bodyExists,
+            bodyEnabled,
+            inWorld,
+            bossType: enemy.bossType,
+            distance: Phaser.Math.Distance.Between(bullet.x, bullet.y, enemy.x, enemy.y).toFixed(1)
+          });
+          
+          if (!bodyEnabled || !bodyExists || !inWorld) {
+            console.error('[GameScene] ❌ Boss collision BLOCKED - body issue');
+            
+            // Emergency fix: re-enable body if it exists
+            if (bodyExists && !bodyEnabled) {
+              console.warn('[GameScene] EMERGENCY: Re-enabling boss body during collision check');
+              enemy.body.enable = true;
+              return true; // Allow collision after fixing
+            }
+          }
+        }
+        
+        return canCollide;
       },
       this
     );
     
-    // Powerup collection
-    this.physics.add.overlap(
+    // Powerup collection - CRITICAL
+    this.powerupCollider = this.physics.add.overlap(
       this.player.sprite, 
       this.powerups, 
-      this.collectPowerup, 
       (player, powerup) => {
-        // Process callback - only collect if game is active and both are active
+        console.log('[GameScene] 🎉🎉🎉 POWERUP COLLISION CALLBACK FIRED!', powerup.powerupId);
+        console.log('[GameScene] Powerup has powerupConfig:', !!powerup.powerupConfig);
+        if (powerup.powerupConfig) {
+          console.log('[GameScene] Config:', powerup.powerupConfig.powerup_name, powerup.powerupConfig.powerup_type);
+        }
+        this.collectPowerup(player, powerup);
+      },
+      (player, powerup) => {
+        // Process callback - check if collection should happen
         const canCollect = !this.gameOver && player.active && powerup.active;
-        if (canCollect) {
-          console.log('[GameScene] Powerup overlap detected at player:', player.x, player.y, 'powerup:', powerup.x, powerup.y);
+        if (canCollect && powerup.powerupConfig) {
+          console.log('[GameScene] ⚡ OVERLAP DETECTED - Player:', player.x.toFixed(0), player.y.toFixed(0), 'Powerup:', powerup.x.toFixed(0), powerup.y.toFixed(0), 'Distance:', Phaser.Math.Distance.Between(player.x, player.y, powerup.x, powerup.y).toFixed(0));
+          console.log('[GameScene] ⚡ Powerup details:', powerup.powerupConfig.powerup_name, 'Type:', powerup.powerupConfig.powerup_type, 'ID:', powerup.powerupId);
+        } else if (!canCollect) {
+          console.log('[GameScene] ❌ Collection blocked - gameOver:', this.gameOver, 'player active:', player.active, 'powerup active:', powerup.active);
         }
         return canCollect;
       }, 
       this
     );
+    console.log('[GameScene] ✅ Powerup collision overlap configured - player:', this.player.sprite, 'powerups group:', this.powerups);
     
     // Player vs enemies - use overlap for better detection
     this.playerEnemyCollider = this.physics.add.overlap(
@@ -144,6 +204,14 @@ export default class GameScene extends Phaser.Scene {
 
     // Touch controls for mobile
     this.setupTouchControls();
+
+    // Unlock audio context
+    this.soundManager.unlockAudio();
+
+    // Decode loaded audio files
+    this.soundManager.decodeLoadedAudio().catch(error => {
+      console.error('[GameScene] Failed to decode audio:', error);
+    });
 
     console.log('[GameScene] Game started');
   }
@@ -286,28 +354,78 @@ export default class GameScene extends Phaser.Scene {
       }
     });
     
-    // Update powerups (remove if off screen)
+    // Update powerups - keep them alive much longer
+    const powerupCount = this.powerups.getLength();
+    
+    // Always log if there are powerups
+    if (powerupCount > 0) {
+      if (this.time.now % 1000 < 20) {
+        console.log('[GameScene] 🎮 Powerups on screen:', powerupCount);
+        // Log each powerup
+        this.powerups.children.each(p => {
+          if (p.active) {
+            console.log('  - Powerup at', p.x.toFixed(0), p.y.toFixed(0), 'hasConfig:', !!p.powerupConfig, 'type:', p.powerupConfig?.powerup_type, 'id:', p.powerupId);
+          }
+        });
+      }
+    } else {
+      // Log once per second that there are no powerups
+      if (this.time.now % 2000 < 20) {
+        console.log('[GameScene] No powerups on screen');
+      }
+    }
+    
+    // Only destroy powerups after 20 seconds OR if way off bottom of screen
+    // (Powerups fall at 50px/s, from top y=-50 to player y=620 takes ~13 seconds)
     this.powerups.children.each(powerup => {
-      if (powerup.active && powerup.y > height + 50) {
+      if (!powerup.active) return;
+      
+      const aliveTime = Date.now() - (powerup.spawnTime || 0);
+      const screenHeight = this.cameras.main.height;
+      
+      // Don't destroy powerups that just spawned (give them 2 seconds to enter screen)
+      if (aliveTime < 2000) return;
+      
+      // Destroy if 20 seconds old OR way off bottom of screen (only check bottom, not top)
+      if (aliveTime > 20000 || powerup.y > screenHeight + 200) {
+        console.log('[GameScene] 🗑️ Removing powerup', powerup.powerupId, 'age:', (aliveTime/1000).toFixed(1), 's', 'y:', powerup.y);
         powerup.destroy();
       }
     });
     
-    // Spawn powerups periodically (more frequent before first boss, slower after)
-    if (!this.gameOver && !this.waveManager.purpleBossActive) {
-      // Adjust spawn rate based on game phase
-      let currentInterval = this.powerupSpawnInterval;
-      if (this.waveManager.firstBossSpawned) {
-        // Slower spawn rate after first boss (every 8 seconds instead of 3)
-        currentInterval = 8000;
+    // OLD powerup spawning system disabled - now using database-driven powerup drops from WaveManager
+    // Powerups now drop from enemies based on wave_powerup_pool configuration
+    // if (!this.gameOver && this.waveManager.waveActive) {
+    //   let currentInterval = this.powerupSpawnInterval;
+    //   if (this.waveManager.firstBossSpawned) {
+    //     currentInterval = 8000;
+    //   }
+    //   
+    //   this.powerupSpawnTimer += delta;
+    //   if (this.powerupSpawnTimer >= currentInterval) {
+    //     this.spawnPowerup();
+    //     this.powerupSpawnTimer = 0;
+    //   }
+    // }
+
+    // CRITICAL: Ensure all boss physics bodies stay enabled every frame
+    this.enemies.children.each(enemy => {
+      if (enemy.active && enemy.isBoss && enemy.body) {
+        // Always force enable, don't just check
+        const wasDisabled = !enemy.body.enable;
+        enemy.body.enable = true;
+        
+        if (wasDisabled) {
+          console.error('[GameScene] ⚠️⚠️⚠️ Boss body was disabled! Re-enabled. Boss:', enemy.bossType);
+        }
+        
+        // Also ensure body is in physics world
+        if (!enemy.body.world) {
+          console.error('[GameScene] Boss body not in physics world! Re-adding.');
+          this.physics.world.enable(enemy);
+        }
       }
-      
-      this.powerupSpawnTimer += delta;
-      if (this.powerupSpawnTimer >= currentInterval) {
-        this.spawnPowerup();
-        this.powerupSpawnTimer = 0;
-      }
-    }
+    });
 
     // Update wave manager
     this.waveManager.update(time, delta);
@@ -320,6 +438,11 @@ export default class GameScene extends Phaser.Scene {
     const playerX = this.player.sprite.x;
     const playerY = this.player.sprite.y;
     const streams = this.player.stats.bulletStreams;
+    
+    // Play weapon shoot sound
+    this.soundManager.playWeaponSound('basicPistol', 'shoot');
+    
+    console.log('[GameScene] 🔫 Shooting with', streams, 'bullet streams. Full stats:', JSON.stringify(this.player.stats));
     
     // Calculate spread for multiple streams
     if (streams === 1) {
@@ -336,7 +459,7 @@ export default class GameScene extends Phaser.Scene {
       
       if (bullet1) this.configureBullet(bullet1, playerX - offset, playerY, 0);
       if (bullet2) this.configureBullet(bullet2, playerX + offset, playerY, 0);
-    } else if (streams >= 3) {
+    } else if (streams === 3) {
       // Three bullets: left, center, right
       const offset = 20;
       const bullet1 = this.bullets.get(playerX - offset, playerY);
@@ -346,6 +469,21 @@ export default class GameScene extends Phaser.Scene {
       if (bullet1) this.configureBullet(bullet1, playerX - offset, playerY, 0);
       if (bullet2) this.configureBullet(bullet2, playerX, playerY, 0);
       if (bullet3) this.configureBullet(bullet3, playerX + offset, playerY, 0);
+    } else {
+      // 4+ bullets: spread them out in a fan pattern
+      const baseOffset = 15; // Base spacing between bullets
+      const totalWidth = baseOffset * (streams - 1);
+      const startX = playerX - (totalWidth / 2);
+      
+      for (let i = 0; i < streams; i++) {
+        const x = startX + (i * baseOffset);
+        const bullet = this.bullets.get(x, playerY);
+        if (bullet) {
+          // Optional: Add slight angle for wider spreads
+          const angle = 0; // Could add spread angle for visual effect
+          this.configureBullet(bullet, x, playerY, angle);
+        }
+      }
     }
   }
   
@@ -363,7 +501,12 @@ export default class GameScene extends Phaser.Scene {
 
   hitEnemy(bullet, enemy) {
     // Don't process if bullet or enemy already destroyed/inactive
-    if (!bullet.active || !enemy.active) return;
+    if (!bullet.active || !enemy.active) {
+      console.log('[GameScene] Hit skipped - bullet active:', bullet.active, 'enemy active:', enemy.active);
+      return;
+    }
+    
+    console.log('[GameScene] Hit detected! Bullet at:', bullet.x.toFixed(1), bullet.y.toFixed(1), 'Enemy at:', enemy.x.toFixed(1), enemy.y.toFixed(1), 'Is Boss:', enemy.isBoss);
     
     // Immediately disable bullet to prevent hitting multiple enemies in same frame
     bullet.setActive(false);
@@ -385,93 +528,115 @@ export default class GameScene extends Phaser.Scene {
       console.log('[GameScene] Boss hit! Health:', enemy.bossRef.health, '/', enemy.bossRef.maxHealth);
       
       if (enemy.bossRef.health <= 0 && !enemy.bossRef.destroyed) {
-        // Boss defeated - different handling based on type
+        // Boss defeated
         console.log('[GameScene] Boss defeated! Type:', enemy.bossType, 'Health was:', enemy.bossRef.health);
-        if (enemy.bossType === 'pink') {
-          this.score += 100; // Pink bosses worth more points
-          
-          // Spawn extra powerups after pink boss defeat
-          this.spawnExtraPowerups();
-          
-          // Show pink boss defeated message
-          const text = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'PINK BOSS DEFEATED!', {
-            fontSize: '24px', // Smaller for mobile
-            color: '#ff69b4',
-            stroke: '#ff0000',
-            strokeThickness: 4
-          }).setOrigin(0.5).setDepth(1000);
-          
-          this.tweens.add({
-            targets: text,
-            alpha: 0,
-            duration: 2000,
-            onComplete: () => text.destroy()
-          });
-        } else if (enemy.bossType === 'purple') {
-          this.score += 200; // Purple boss worth the most points
-          
-          // Show purple boss defeated message
-          const text = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'PURPLE BOSS DEFEATED!', {
-            fontSize: '28px', // Slightly larger for final boss
-            color: '#800080',
-            stroke: '#ff00ff',
-            strokeThickness: 4
-          }).setOrigin(0.5).setDepth(1000);
-          
-          this.tweens.add({
-            targets: text,
-            alpha: 0,
-            duration: 3000, // Longer display for final boss
-            onComplete: () => text.destroy()
-          });
-          
-          console.log('[GameScene] 🟣 PURPLE BOSS DEFEATED! Wave should complete now.');
-        } else {
-          this.score += 25; // Normal bosses worth fewer points
-          
-          // Spawn extra powerups after normal boss defeat too
-          this.spawnExtraPowerupsAfterNormalBoss();
-          
-          // Show normal boss defeated message
-          const text = this.add.text(enemy.x, enemy.y, 'BOSS!', {
-            fontSize: '18px', // Smaller for mobile
-            color: '#ff0000',
-            stroke: '#000000',
-            strokeThickness: 2
-          }).setOrigin(0.5).setDepth(100);
-          
-          this.tweens.add({
-            targets: text,
-            y: text.y - 30,
-            alpha: 0,
-            duration: 1500,
-            onComplete: () => text.destroy()
-          });
-        }
+        
+        // Stop boss alive sound and play death sound
+        const bossIdMap = {
+          'normal': 'normalRed',
+          'tank': 'pinkSpecial',
+          'boss': 'purpleLaneSwitcher',
+          'golden': 'goldenTank'
+        };
+        const bossId = bossIdMap[enemy.bossType] || 'normalRed';
+        this.soundManager.stopBossSound(bossId, 'alive');
+        this.soundManager.playBossSound(bossId, 'death');
+        
+        // Play player victory vocal
+        this.soundManager.playPlayerVocal('defaultPlayer', 'bossDefeat');
+        
+        // Award points based on boss
+        const baseScore = 50;
+        this.score += baseScore;
+        
+        // Spawn powerups after boss defeat
+        this.spawnExtraPowerupsAfterNormalBoss();
+        
+        // Show boss defeated message
+        const text = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'BOSS DEFEATED!', {
+          fontSize: '28px',
+          color: '#ff0000',
+          stroke: '#000000',
+          strokeThickness: 4
+        }).setOrigin(0.5).setDepth(1000);
+        
+        this.tweens.add({
+          targets: text,
+          alpha: 0,
+          duration: 2000,
+          onComplete: () => text.destroy()
+        });
         
         this.kills++;
         
-        // Handle purple boss specially - trigger wave completion immediately
-        if (enemy.bossType === 'purple') {
-          console.log('[GameScene] Purple boss died - triggering wave completion');
+        // Handle main boss specially - trigger wave completion
+        if (enemy.isMainBoss) {
+          console.log('[GameScene] Main boss died - triggering wave completion');
           console.log('[GameScene] Boss sprite before destroy:', enemy.active, enemy.visible, enemy.x, enemy.y);
           enemy.bossRef.destroy();
           console.log('[GameScene] Boss sprite after destroy:', enemy.active, enemy.visible);
+          
+          // Remove from enemies group to prevent collision checks on dead boss
+          this.enemies.remove(enemy, true, true); // remove, destroyChild, removeFromScene
+          
           this.waveManager.enemyKilled();
-          this.waveManager.clearCurrentBoss(); // This will trigger waveComplete() for purple boss
-          return; // Exit early for purple boss
+          this.waveManager.clearCurrentBoss(); // This will trigger waveComplete() for main boss
+          return; // Exit early for main boss
         }
         
         enemy.bossRef.destroy();
+        
+        // Remove from enemies group to prevent collision checks on dead boss
+        this.enemies.remove(enemy, true, true); // remove, destroyChild, removeFromScene
+        
         this.waveManager.enemyKilled();
         this.waveManager.clearCurrentBoss(); // Clear current boss so next one can spawn
       }
     } else {
-      // Regular enemy - destroy immediately
-      enemy.destroy();
-      this.score += 10;
-      this.kills++;
-      this.waveManager.enemyKilled();
+      // Regular enemy - check if multi-hit enemy
+      if (enemy.enemyRef && enemy.currentHits > 1) {
+        // Multi-hit enemy - take damage
+        const isDestroyed = enemy.enemyRef.takeDamage();
+        
+        // Flash enemy on hit
+        enemy.setTint(0xff0000);
+        this.time.delayedCall(100, () => {
+          if (enemy.active) enemy.clearTint();
+        });
+        
+        if (isDestroyed) {
+          // Enemy destroyed after taking enough hits
+          console.log('[GameScene] Multi-hit enemy destroyed after', enemy.hitPoints, 'hits');
+          
+          // Try to drop powerup
+          const dropPosition = { x: enemy.x, y: enemy.y };
+          this.waveManager.tryDropPowerup(dropPosition);
+          
+          if (enemy.enemyRef) {
+            enemy.enemyRef.destroy();
+          }
+          enemy.destroy();
+          this.score += 10 * enemy.hitPoints; // More points for multi-hit enemies
+          this.kills++;
+          this.waveManager.enemyKilled();
+        } else {
+          console.log('[GameScene] Multi-hit enemy hit! Remaining hits:', enemy.currentHits);
+        }
+      } else {
+        // Regular single-hit enemy - destroy immediately
+        
+        // Try to drop powerup
+        const dropPosition = { x: enemy.x, y: enemy.y };
+        this.waveManager.tryDropPowerup(dropPosition);
+        
+        if (enemy.enemyRef) {
+          enemy.enemyRef.destroy();
+        }
+        enemy.destroy();
+        this.score += 10;
+        this.kills++;
+        this.waveManager.enemyKilled();
+      }
     }
   }
   
@@ -521,7 +686,7 @@ export default class GameScene extends Phaser.Scene {
     for (let i = 0; i < numExtra; i++) {
       // Delay each spawn slightly
       this.time.delayedCall(i * 300, () => {
-        if (!this.gameOver) {
+        if (!this.gameOver && this.waveManager.waveActive) {
           this.spawnPowerup();
         }
       });
@@ -537,7 +702,7 @@ export default class GameScene extends Phaser.Scene {
     for (let i = 0; i < numExtra; i++) {
       // Delay each spawn slightly
       this.time.delayedCall(i * 400, () => {
-        if (!this.gameOver) {
+        if (!this.gameOver && this.waveManager.waveActive) {
           this.spawnPowerup();
         }
       });
@@ -547,7 +712,29 @@ export default class GameScene extends Phaser.Scene {
   }
   
   collectPowerup(player, powerupSprite) {
+    console.log('[GameScene] ========== collectPowerup CALLED ==========');
+    console.log('[GameScene] Powerup:', powerupSprite.x, powerupSprite.y, 'has powerupConfig:', !!powerupSprite.powerupConfig, 'has powerupType:', !!powerupSprite.powerupType);
+    
+    // Handle both old powerups (powerupType) and new database powerups (powerupConfig)
+    if (powerupSprite.powerupConfig) {
+      // New database-driven powerup - let WaveManager handle everything
+      const config = powerupSprite.powerupConfig;
+      console.log('[GameScene] 🎁 Collected database powerup:', config.powerup_name, 'Type:', config.powerup_type, 'Effect:', config.effect);
+      console.log('[GameScene] Player stats BEFORE:', JSON.stringify(this.player.stats));
+      
+      // Let WaveManager handle the effect AND destruction
+      this.waveManager.collectPowerup(powerupSprite);
+      
+      console.log('[GameScene] Player stats AFTER:', JSON.stringify(this.player.stats));
+      console.log('[GameScene] ========== collectPowerup DONE ==========');
+      return;
+    }
+    
+    // Old hardcoded powerup system (fallback)
     const type = powerupSprite.powerupType;
+    
+    // Play powerup collection sound
+    this.soundManager.playPowerupSound(type);
     
     if (type === 'lvl1PowerUp') {
       this.lvl1PowerupsCollected++;
@@ -619,6 +806,17 @@ export default class GameScene extends Phaser.Scene {
     }
     
     powerupSprite.destroy();
+    
+    // CRITICAL: Re-enable all boss physics bodies after powerup collection
+    // Powerup collection can sometimes affect collision detection state
+    this.enemies.children.each(enemy => {
+      if (enemy.active && enemy.isBoss && enemy.body) {
+        if (!enemy.body.enable) {
+          console.warn('[GameScene] Re-enabling boss body after powerup collection');
+          enemy.body.enable = true;
+        }
+      }
+    });
   }
 
   hitPlayer(player, enemy) {
@@ -646,6 +844,9 @@ export default class GameScene extends Phaser.Scene {
     if (this.waveManager) {
       this.waveManager.stop();
     }
+    
+    // Stop all sounds
+    this.soundManager.stopAllMusic();
     
     // Flash player red for visual feedback
     if (player && player.active) {
@@ -681,6 +882,9 @@ export default class GameScene extends Phaser.Scene {
     if (this.waveManager) {
       this.waveManager.stop();
     }
+    
+    // Stop all sounds
+    this.soundManager.stopAllMusic();
     
     // Flash enemy red for visual feedback
     if (enemy && enemy.active) {

@@ -1,0 +1,83 @@
+{
+  "powerups": {
+    "lvl1PowerUp": {
+      "name": "Speed Boost",
+      "description": "Increases fire rate",
+      "type": "speed",
+      "image": "powerup_lvl1.png",
+      "effects": {
+        "fireRateMultiplier": 2.0,
+        "diminishingReturns": true,
+        "minMultiplier": 1.2
+      },
+      "sounds": {
+        "collect": "powerup_speed_collect.mp3",
+        "volume": 0.7
+      }
+    },
+    "lvl2PowerUp": {
+      "name": "Damage Boost",
+      "description": "Increases damage and bullet streams",
+      "type": "damage",
+      "image": "powerup_lvl2.png",
+      "effects": {
+        "damageMultiplier": 1.5,
+        "streamIncrease": 1,
+        "diminishingReturns": true,
+        "minMultiplier": 1.1
+      },
+      "sounds": {
+        "collect": "powerup_damage_collect.mp3",
+        "volume": 0.8
+      }
+    },
+    "healthPack": {
+      "name": "Health Pack",
+      "description": "Restores player health",
+      "type": "health",
+      "image": "powerup_health.png",
+      "effects": {
+        "healthRestore": 25,
+        "maxHealthCap": true
+      },
+      "sounds": {
+        "collect": "powerup_health_collect.mp3",
+        "volume": 0.9
+      },
+      "rarity": "rare"
+    },
+    "shield": {
+      "name": "Shield",
+      "description": "Temporary invincibility",
+      "type": "shield",
+      "image": "powerup_shield.png",
+      "effects": {
+        "invincibilityDuration": 5000,
+        "visualEffect": "glow"
+      },
+      "sounds": {
+        "collect": "powerup_shield_collect.mp3",
+        "activate": "shield_activate.mp3",
+        "deactivate": "shield_deactivate.mp3",
+        "volume": 0.6
+      },
+      "rarity": "epic"
+    },
+    "multiplier": {
+      "name": "Score Multiplier",
+      "description": "Doubles score for limited time",
+      "type": "multiplier",
+      "image": "powerup_multiplier.png",
+      "effects": {
+        "scoreMultiplier": 2.0,
+        "duration": 10000
+      },
+      "sounds": {
+        "collect": "powerup_multiplier_collect.mp3",
+        "activate": "multiplier_activate.mp3",
+        "volume": 0.8
+      },
+      "rarity": "legendary"
+    }
+  }
+}

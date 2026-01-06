@@ -1,0 +1,64 @@
+{
+  "bosses": {
+    "normalRed": {
+      "name": "Red Dragon",
+      "description": "Basic boss with standard abilities",
+      "type": "normal",
+      "baseHealth": 100,
+      "baseSpeed": 60,
+      "scaleRange": {
+        "min": 1.5,
+        "max": 2.5
+      },
+      "color": "0xff0000",
+      "abilities": [],
+      "image": "boss_normal.png",
+      "defeatReward": 25
+    },
+    "pinkSpecial": {
+      "name": "Pink Guardian",
+      "description": "Special boss with enhanced abilities",
+      "type": "pink",
+      "baseHealth": 200,
+      "baseSpeed": 25,
+      "scaleRange": {
+        "min": 1.5,
+        "max": 2.5
+      },
+      "color": "0xff69b4",
+      "abilities": ["extraPowerups"],
+      "image": "boss_pink.png",
+      "defeatReward": 100
+    },
+    "purpleLaneSwitcher": {
+      "name": "Purple Phantom",
+      "description": "Final boss with random lane switching",
+      "type": "purple",
+      "baseHealth": 300,
+      "baseSpeed": 15,
+      "scaleRange": {
+        "min": 1.5,
+        "max": 2.5
+      },
+      "color": "0x800080",
+      "abilities": ["laneSwitching", "flashWarning"],
+      "image": "boss_purple.png",
+      "defeatReward": 200
+    },
+    "goldenTank": {
+      "name": "Golden Tank",
+      "description": "Heavy armored boss with high health",
+      "type": "golden",
+      "baseHealth": 500,
+      "baseSpeed": 10,
+      "scaleRange": {
+        "min": 2.0,
+        "max": 3.0
+      },
+      "color": "0xffd700",
+      "abilities": ["armored", "slowButStrong"],
+      "image": "boss_golden.png",
+      "defeatReward": 300
+    }
+  }
+}

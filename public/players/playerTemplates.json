@@ -1,0 +1,43 @@
+{
+  "players": {
+    "greenSoldier": {
+      "name": "Green Soldier",
+      "description": "Basic soldier with balanced stats",
+      "baseStats": {
+        "health": 100,
+        "bulletDamage": 25,
+        "bulletSpeed": 400,
+        "fireRate": 200,
+        "bulletStreams": 1,
+        "movementSpeed": 200
+      },
+      "appearance": {
+        "baseImage": "green-soldier.png",
+        "outfits": ["basic", "armored", "stealth"],
+        "hairstyles": ["short", "long", "none"],
+        "equipment": ["helmet", "backpack", "boots"]
+      },
+      "unlockedByDefault": true
+    },
+    "eliteSniper": {
+      "name": "Elite Sniper",
+      "description": "High damage, slow fire rate",
+      "baseStats": {
+        "health": 80,
+        "bulletDamage": 50,
+        "bulletSpeed": 600,
+        "fireRate": 800,
+        "bulletStreams": 1,
+        "movementSpeed": 180
+      },
+      "appearance": {
+        "baseImage": "elite-sniper.png",
+        "outfits": ["ghillie", "tactical"],
+        "hairstyles": ["buzz", "crew"],
+        "equipment": ["scope", "suppressor"]
+      },
+      "unlockedByDefault": false,
+      "unlockCost": 500
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "waves": {
+    "wave1": {
+      "name": "Dragon's Awakening",
+      "description": "First encounter with basic enemies",
+      "scene": "forest",
+      "duration": 180000,
+      "enemySpawnRate": 900,
+      "maxEnemies": 200,
+      "sounds": {
+        "backgroundMusic": "wave1_background.wav",
+        "musicVolume": 0.4,
+        "ambientSound": "wave1_ambient.wav",
+        "ambientVolume": 0.2
+      },
+      "bossSequence": [
+        {
+          "bossId": "normalRed",
+          "spawnTime": 15000,
+          "isMainBoss": false
+        },
+        {
+          "bossId": "pinkSpecial",
+          "spawnTime": 60000,
+          "isMainBoss": false
+        },
+        {
+          "bossId": "purpleLaneSwitcher",
+          "spawnTime": 120000,
+          "isMainBoss": true
+        }
+      ],
+      "powerupSettings": {
+        "spawnInterval": 8000,
+        "types": ["lvl1PowerUp", "lvl2PowerUp"]
+      }
+    },
+    "wave2": {
+      "name": "Mountain Siege",
+      "description": "Challenging mountain terrain",
+      "scene": "mountain",
+      "duration": 240000,
+      "enemySpawnRate": 800,
+      "maxEnemies": 250,
+      "bossSequence": [
+        {
+          "bossId": "normalRed",
+          "spawnTime": 10000,
+          "isMainBoss": false
+        },
+        {
+          "bossId": "goldenTank",
+          "spawnTime": 80000,
+          "isMainBoss": false
+        },
+        {
+          "bossId": "pinkSpecial",
+          "spawnTime": 150000,
+          "isMainBoss": false
+        },
+        {
+          "bossId": "purpleLaneSwitcher",
+          "spawnTime": 200000,
+          "isMainBoss": true
+        }
+      ],
+      "powerupSettings": {
+        "spawnInterval": 6000,
+        "types": ["lvl1PowerUp", "lvl2PowerUp", "lvl3PowerUp"]
+      }
+    }
+  }
+}

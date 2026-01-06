@@ -47,11 +47,21 @@ src/
 │   │   └── GameScene.js      # Core gameplay
 │   ├── entities/
 │   │   ├── Player.js         # Player logic
-│   │   └── Enemy.js          # Enemy logic
-│   └── systems/
-│       └── WaveManager.js    # Wave spawning system
-└── services/
-    └── APIService.js         # Backend API (placeholder)
+│   │   ├── Enemy.js          # Enemy logic
+│   │   ├── Boss.js           # Boss enemy logic
+│   │   └── Powerup.js        # Power-up collectibles
+│   ├── systems/
+│   │   ├── WaveManager.js    # Wave spawning system
+│   │   ├── SoundManager.js   # Audio management system
+│   │   ├── ShooterManager.js # Weapon system
+│   │   └── ProgressionManager.js # Game progression
+│   └── services/
+│       └── APIService.js     # Backend API (placeholder)
+public/
+├── assets/
+│   ├── sounds/               # Audio files (MP3/WAV)
+│   ├── scenes/               # Background images
+│   └── shooters/             # Sprite assets
 ```
 
 ## 🎨 Current Features
@@ -63,16 +73,20 @@ src/
 ✅ Health system  
 ✅ Increasing difficulty per wave  
 ✅ Local high score storage  
+✅ Sound effects and music (MP3/WAV support)  
+✅ Boss enemies with scaling difficulty  
+✅ Player vocal effects on boss defeats  
+✅ 2-lane combat system  
+✅ Atmospheric background scenes (Wave 1)  
 ✅ Placeholder graphics (geometric shapes)
 
 ## 🔮 Future Features
 
 - [ ] Custom sprite graphics
-- [ ] Sound effects and music
 - [ ] Multiple weapon types
 - [ ] Upgrade shop between waves
 - [ ] Power-ups and collectibles
-- [ ] Boss enemies
+- [ ] Additional wave backgrounds
 - [ ] Database integration (API ready)
 - [ ] Online leaderboards
 - [ ] Mobile touch controls
@@ -119,6 +133,9 @@ Survive waves of enemies by shooting them down. Each wave increases in difficult
 
 - Currently uses geometric shapes as placeholders
 - Replace textures in `entities/*.js` when assets are ready
+- Full audio system implemented with MP3/WAV support
+- Boss mechanics with scaling difficulty active
+- Wave 1 background scene integrated
 - API calls are logged to console (not sent to server)
 - High scores saved to localStorage
 

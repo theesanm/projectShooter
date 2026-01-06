@@ -1,0 +1,10 @@
+{
+  "weapons": {
+    "basicPistol": {
+      "name": "Basic Pistol",
+      "shoot": "pistol_shot.wav",
+      "volume": 0.6,
+      "pitch": 1.0
+    }
+  }
+}

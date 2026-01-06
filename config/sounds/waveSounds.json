@@ -1,0 +1,39 @@
+{
+  "waves": {
+    "wave1": {
+      "name": "Dragon's Awakening",
+      "backgroundMusic": "wave1_background.wav",
+      "ambientSound": "wave1_ambient.wav",
+      "musicVolume": 0.4,
+      "ambientVolume": 0.2
+    },
+    "wave2": {
+      "name": "Mountain Siege",
+      "backgroundMusic": "mountain_siege_theme.mp3",
+      "ambientSound": "mountain_echo.mp3",
+      "musicVolume": 0.4,
+      "ambientVolume": 0.3
+    },
+    "wave3": {
+      "name": "Desert Storm",
+      "backgroundMusic": "desert_storm_theme.mp3",
+      "ambientSound": "sandstorm.mp3",
+      "musicVolume": 0.4,
+      "ambientVolume": 0.4
+    },
+    "wave4": {
+      "name": "Castle Defense",
+      "backgroundMusic": "castle_defense_theme.mp3",
+      "ambientSound": "castle_echo.mp3",
+      "musicVolume": 0.4,
+      "ambientVolume": 0.2
+    },
+    "wave5": {
+      "name": "Final Battle",
+      "backgroundMusic": "final_battle_theme.mp3",
+      "ambientSound": "epic_echo.mp3",
+      "musicVolume": 0.5,
+      "ambientVolume": 0.3
+    }
+  }
+}

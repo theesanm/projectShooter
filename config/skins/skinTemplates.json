@@ -1,0 +1,193 @@
+{
+  "skins": {
+    "defaultHero": {
+      "name": "Default Hero",
+      "description": "Standard hero appearance. Classic and timeless.",
+      "rarity": "common",
+      "image": "player_default.png",
+      "animated": false,
+      "specialEffects": {},
+      "unlockRequirement": {
+        "type": "default",
+        "value": 0
+      },
+      "shopPrice": 0
+    },
+    "eliteWarrior": {
+      "name": "Elite Warrior",
+      "description": "Battle-hardened veteran with combat scars and upgraded armor.",
+      "rarity": "rare",
+      "image": "player_elite.png",
+      "animated": false,
+      "specialEffects": {
+        "trail": "smoke",
+        "color": "0x8B0000"
+      },
+      "unlockRequirement": {
+        "type": "wave",
+        "value": 5
+      },
+      "shopPrice": 800
+    },
+    "cyberNinja": {
+      "name": "Cyber Ninja",
+      "description": "Futuristic ninja with neon effects and enhanced mobility.",
+      "rarity": "epic",
+      "image": "player_cyber.png",
+      "animated": true,
+      "specialEffects": {
+        "trail": "neon",
+        "aura": "blue",
+        "color": "0x00FFFF",
+        "glowIntensity": 1.5
+      },
+      "unlockRequirement": {
+        "type": "wave",
+        "value": 10
+      },
+      "shopPrice": 2000
+    },
+    "dragonKnight": {
+      "name": "Dragon Knight",
+      "description": "Legendary dragon-themed armor with mystical powers.",
+      "rarity": "legendary",
+      "image": "player_dragon.png",
+      "animated": true,
+      "specialEffects": {
+        "trail": "dragon_fire",
+        "aura": "gold",
+        "particles": "scales",
+        "color": "0xFFD700",
+        "glowIntensity": 2.0,
+        "wings": true
+      },
+      "unlockRequirement": {
+        "type": "achievement",
+        "value": "complete_wave_20"
+      },
+      "shopPrice": 5000
+    },
+    "shadowAssassin": {
+      "name": "Shadow Assassin",
+      "description": "Master of stealth and darkness.",
+      "rarity": "epic",
+      "image": "player_shadow.png",
+      "animated": true,
+      "specialEffects": {
+        "trail": "shadow",
+        "aura": "purple",
+        "color": "0x4B0082",
+        "transparency": 0.8,
+        "afterImage": true
+      },
+      "unlockRequirement": {
+        "type": "kills",
+        "value": 5000
+      },
+      "shopPrice": 3500
+    },
+    "cosmicGuardian": {
+      "name": "Cosmic Guardian",
+      "description": "Protector from beyond the stars.",
+      "rarity": "legendary",
+      "image": "player_cosmic.png",
+      "animated": true,
+      "specialEffects": {
+        "trail": "stars",
+        "aura": "cosmic",
+        "particles": "nebula",
+        "color": "0x9400D3",
+        "glowIntensity": 2.5,
+        "orbiting": ["stars", "planets"]
+      },
+      "unlockRequirement": {
+        "type": "wave",
+        "value": 30
+      },
+      "shopPrice": 8000
+    },
+    "phoenixRising": {
+      "name": "Phoenix Rising",
+      "description": "Reborn from flames with eternal fire.",
+      "rarity": "mythic",
+      "image": "player_phoenix.png",
+      "animated": true,
+      "specialEffects": {
+        "trail": "phoenix_fire",
+        "aura": "flame",
+        "particles": "embers",
+        "color": "0xFF4500",
+        "glowIntensity": 3.0,
+        "wings": true,
+        "resurrection": true
+      },
+      "unlockRequirement": {
+        "type": "achievement",
+        "value": "complete_wave_50_no_death"
+      },
+      "shopPrice": 15000
+    },
+    "voidWalker": {
+      "name": "Void Walker",
+      "description": "Master of the void between dimensions.",
+      "rarity": "mythic",
+      "image": "player_void.png",
+      "animated": true,
+      "specialEffects": {
+        "trail": "void",
+        "aura": "black_hole",
+        "particles": "void_rifts",
+        "color": "0x000033",
+        "glowIntensity": 2.0,
+        "distortion": true,
+        "phasing": true
+      },
+      "unlockRequirement": {
+        "type": "achievement",
+        "value": "master_all_weapons"
+      },
+      "shopPrice": 20000
+    },
+    "mechanizedTitan": {
+      "name": "Mechanized Titan",
+      "description": "Heavy mech suit with devastating firepower.",
+      "rarity": "legendary",
+      "image": "player_mech.png",
+      "animated": true,
+      "specialEffects": {
+        "trail": "steam",
+        "aura": "mechanical",
+        "particles": "gears",
+        "color": "0x708090",
+        "glowIntensity": 1.8,
+        "size": 1.2,
+        "armorPlating": true
+      },
+      "unlockRequirement": {
+        "type": "currency",
+        "value": 10000
+      },
+      "shopPrice": 6000
+    },
+    "arcaneWizard": {
+      "name": "Arcane Wizard",
+      "description": "Master of magical arts and ancient spells.",
+      "rarity": "epic",
+      "image": "player_wizard.png",
+      "animated": true,
+      "specialEffects": {
+        "trail": "magic",
+        "aura": "arcane",
+        "particles": "runes",
+        "color": "0x8A2BE2",
+        "glowIntensity": 2.2,
+        "floatingRunes": true
+      },
+      "unlockRequirement": {
+        "type": "wave",
+        "value": 15
+      },
+      "shopPrice": 4500
+    }
+  }
+}

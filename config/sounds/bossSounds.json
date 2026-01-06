@@ -1,0 +1,13 @@
+{
+  "bosses": {
+    "normalRed": {
+      "name": "Red Dragon",
+      "spawn": "dragon_roar.wav",
+      "alive": "dragon_roar.wav",
+      "death": "dragon_death.wav",
+      "spawnVolume": 0.8,
+      "aliveVolume": 0.3,
+      "deathVolume": 1.0
+    }
+  }
+}

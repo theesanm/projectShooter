@@ -1,0 +1,208 @@
+{
+  "weapons": {
+    "basicPistol": {
+      "name": "Basic Pistol",
+      "description": "Standard starting weapon. Reliable and balanced.",
+      "tier": 1,
+      "damage": 10,
+      "fireRate": 300,
+      "projectileSpeed": 400,
+      "projectileSize": 1.0,
+      "pierceCount": 1,
+      "spreadAngle": 0,
+      "projectileCount": 1,
+      "reloadTime": 0,
+      "ammoCapacity": 999,
+      "specialEffects": {},
+      "image": "weapon_pistol.png",
+      "projectileImage": "bullet_basic.png",
+      "sound": "pistol_fire.mp3",
+      "unlockRequirement": {
+        "type": "default",
+        "value": 0
+      },
+      "shopPrice": 0
+    },
+    "shotgun": {
+      "name": "Shotgun",
+      "description": "Close range powerhouse with spread pattern.",
+      "tier": 2,
+      "damage": 8,
+      "fireRate": 800,
+      "projectileSpeed": 350,
+      "projectileSize": 1.2,
+      "pierceCount": 1,
+      "spreadAngle": 25,
+      "projectileCount": 5,
+      "reloadTime": 1000,
+      "ammoCapacity": 24,
+      "specialEffects": {
+        "knockback": 1.5
+      },
+      "image": "weapon_shotgun.png",
+      "projectileImage": "bullet_shotgun.png",
+      "sound": "shotgun_fire.mp3",
+      "unlockRequirement": {
+        "type": "wave",
+        "value": 2
+      },
+      "shopPrice": 500
+    },
+    "assaultRifle": {
+      "name": "Assault Rifle",
+      "description": "High fire rate automatic weapon with good accuracy.",
+      "tier": 3,
+      "damage": 15,
+      "fireRate": 150,
+      "projectileSpeed": 500,
+      "projectileSize": 1.0,
+      "pierceCount": 2,
+      "spreadAngle": 5,
+      "projectileCount": 1,
+      "reloadTime": 1500,
+      "ammoCapacity": 30,
+      "specialEffects": {},
+      "image": "weapon_rifle.png",
+      "projectileImage": "bullet_rifle.png",
+      "sound": "rifle_fire.mp3",
+      "unlockRequirement": {
+        "type": "wave",
+        "value": 5
+      },
+      "shopPrice": 1500
+    },
+    "sniper": {
+      "name": "Sniper Rifle",
+      "description": "High damage precision weapon. One shot, one kill.",
+      "tier": 4,
+      "damage": 100,
+      "fireRate": 1200,
+      "projectileSpeed": 800,
+      "projectileSize": 1.5,
+      "pierceCount": 5,
+      "spreadAngle": 0,
+      "projectileCount": 1,
+      "reloadTime": 2000,
+      "ammoCapacity": 10,
+      "specialEffects": {
+        "criticalChance": 0.3,
+        "criticalMultiplier": 2.0
+      },
+      "image": "weapon_sniper.png",
+      "projectileImage": "bullet_sniper.png",
+      "sound": "sniper_fire.mp3",
+      "unlockRequirement": {
+        "type": "kills",
+        "value": 1000
+      },
+      "shopPrice": 3000
+    },
+    "minigun": {
+      "name": "Minigun",
+      "description": "Extreme fire rate. Spray and pray.",
+      "tier": 5,
+      "damage": 5,
+      "fireRate": 50,
+      "projectileSpeed": 450,
+      "projectileSize": 0.8,
+      "pierceCount": 1,
+      "spreadAngle": 15,
+      "projectileCount": 1,
+      "reloadTime": 3000,
+      "ammoCapacity": 200,
+      "specialEffects": {
+        "spinup": true,
+        "overheating": true
+      },
+      "image": "weapon_minigun.png",
+      "projectileImage": "bullet_minigun.png",
+      "sound": "minigun_fire.mp3",
+      "unlockRequirement": {
+        "type": "wave",
+        "value": 10
+      },
+      "shopPrice": 5000
+    },
+    "laserCannon": {
+      "name": "Laser Cannon",
+      "description": "Continuous beam of pure energy.",
+      "tier": 6,
+      "damage": 3,
+      "fireRate": 16,
+      "projectileSpeed": 1000,
+      "projectileSize": 2.0,
+      "pierceCount": 999,
+      "spreadAngle": 0,
+      "projectileCount": 1,
+      "reloadTime": 0,
+      "ammoCapacity": 100,
+      "specialEffects": {
+        "beam": true,
+        "energyDrain": 1
+      },
+      "image": "weapon_laser.png",
+      "projectileImage": "beam_laser.png",
+      "sound": "laser_hum.mp3",
+      "unlockRequirement": {
+        "type": "wave",
+        "value": 15
+      },
+      "shopPrice": 8000
+    },
+    "rocketLauncher": {
+      "name": "Rocket Launcher",
+      "description": "Explosive area damage. Handle with care.",
+      "tier": 7,
+      "damage": 80,
+      "fireRate": 2000,
+      "projectileSpeed": 300,
+      "projectileSize": 2.0,
+      "pierceCount": 1,
+      "spreadAngle": 0,
+      "projectileCount": 1,
+      "reloadTime": 3000,
+      "ammoCapacity": 12,
+      "specialEffects": {
+        "explosion": true,
+        "explosionRadius": 100,
+        "explosionDamage": 50,
+        "selfDamage": true
+      },
+      "image": "weapon_rocket.png",
+      "projectileImage": "rocket_projectile.png",
+      "sound": "rocket_fire.mp3",
+      "unlockRequirement": {
+        "type": "achievement",
+        "value": "complete_wave_20"
+      },
+      "shopPrice": 12000
+    },
+    "plasmaCannon": {
+      "name": "Plasma Cannon",
+      "description": "Charges up for devastating shots.",
+      "tier": 8,
+      "damage": 150,
+      "fireRate": 3000,
+      "projectileSpeed": 600,
+      "projectileSize": 3.0,
+      "pierceCount": 10,
+      "spreadAngle": 0,
+      "projectileCount": 1,
+      "reloadTime": 2000,
+      "ammoCapacity": 8,
+      "specialEffects": {
+        "chargeable": true,
+        "maxCharge": 3,
+        "chainLightning": 3
+      },
+      "image": "weapon_plasma.png",
+      "projectileImage": "plasma_ball.png",
+      "sound": "plasma_charge.mp3",
+      "unlockRequirement": {
+        "type": "currency",
+        "value": 20000
+      },
+      "shopPrice": 15000
+    }
+  }
+}

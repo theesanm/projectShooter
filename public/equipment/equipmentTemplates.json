@@ -1,0 +1,67 @@
+{
+  "weapons": {
+    "basicPistol": {
+      "name": "Basic Pistol",
+      "description": "Standard sidearm",
+      "type": "weapon",
+      "stats": {
+        "bulletDamage": "+10",
+        "fireRate": "-50",
+        "bulletSpeed": "+50"
+      },
+      "image": "pistol.png",
+      "unlockedByDefault": true
+    },
+    "rapidFireSMG": {
+      "name": "Rapid Fire SMG",
+      "description": "High fire rate, lower damage",
+      "type": "weapon",
+      "stats": {
+        "bulletDamage": "-5",
+        "fireRate": "-150",
+        "bulletStreams": "+1"
+      },
+      "image": "smg.png",
+      "unlockedByDefault": false,
+      "unlockCost": 300
+    },
+    "sniperRifle": {
+      "name": "Sniper Rifle",
+      "description": "Long range, high damage",
+      "type": "weapon",
+      "stats": {
+        "bulletDamage": "+30",
+        "fireRate": "+200",
+        "bulletSpeed": "+200",
+        "bulletStreams": 1
+      },
+      "image": "sniper.png",
+      "unlockedByDefault": false,
+      "unlockCost": 800
+    }
+  },
+  "equipment": {
+    "armorVest": {
+      "name": "Armor Vest",
+      "description": "Increases health",
+      "type": "armor",
+      "stats": {
+        "health": "+50"
+      },
+      "image": "armor-vest.png",
+      "unlockedByDefault": false,
+      "unlockCost": 200
+    },
+    "speedBoots": {
+      "name": "Speed Boots",
+      "description": "Increases movement speed",
+      "type": "boots",
+      "stats": {
+        "movementSpeed": "+50"
+      },
+      "image": "speed-boots.png",
+      "unlockedByDefault": false,
+      "unlockCost": 150
+    }
+  }
+}

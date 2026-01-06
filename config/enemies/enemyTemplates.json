@@ -1,0 +1,70 @@
+{
+  "enemies": {
+    "single": {
+      "name": "Single Dragon",
+      "health": 1,
+      "image": "enemy_single.png",
+      "points": 10,
+      "size": {
+        "width": 64,
+        "height": 64
+      }
+    },
+    "double": {
+      "name": "Double Dragons",
+      "health": 2,
+      "image": "enemy_double.png",
+      "points": 25,
+      "size": {
+        "width": 96,
+        "height": 64
+      }
+    },
+    "triple": {
+      "name": "Triple Dragons",
+      "health": 3,
+      "image": "enemy_triple.png",
+      "points": 50,
+      "size": {
+        "width": 128,
+        "height": 64
+      }
+    },
+    "quad": {
+      "name": "Quad Dragons",
+      "health": 4,
+      "image": "enemy_quad.png",
+      "points": 100,
+      "size": {
+        "width": 160,
+        "height": 64
+      }
+    }
+  },
+  "spawnPatterns": {
+    "random": {
+      "weights": {
+        "single": 60,
+        "double": 25,
+        "triple": 10,
+        "quad": 5
+      }
+    },
+    "progressive": {
+      "earlyGame": {
+        "single": 80,
+        "double": 20
+      },
+      "midGame": {
+        "single": 40,
+        "double": 40,
+        "triple": 20
+      },
+      "lateGame": {
+        "double": 30,
+        "triple": 50,
+        "quad": 20
+      }
+    }
+  }
+}

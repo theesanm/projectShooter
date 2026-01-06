@@ -1,0 +1,16 @@
+{
+  "powerups": {
+    "lvl1PowerUp": {
+      "name": "Speed Boost",
+      "collect": "powerup_speed_collect.wav",
+      "volume": 0.7,
+      "pitch": 1.2
+    },
+    "lvl2PowerUp": {
+      "name": "Damage Boost",
+      "collect": "powerup_damage_collect.wav",
+      "volume": 0.8,
+      "pitch": 1.0
+    }
+  }
+}

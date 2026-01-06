@@ -1,0 +1,96 @@
+{
+  "bosses": {
+    "normalRed": {
+      "name": "Red Dragon",
+      "description": "Basic boss with standard abilities",
+      "type": "normal",
+      "baseHealth": 100,
+      "baseSpeed": 60,
+      "scaleRange": {
+        "min": 1.5,
+        "max": 2.5
+      },
+      "color": "0xff0000",
+      "abilities": [],
+      "image": "boss_normal.png",
+      "sounds": {
+        "spawn": "dragon_roar.mp3",
+        "alive": "dragon_breath_loop.mp3",
+        "death": "dragon_death.mp3",
+        "spawnVolume": 0.8,
+        "aliveVolume": 0.3,
+        "deathVolume": 1.0
+      },
+      "defeatReward": 25
+    },
+    "pinkSpecial": {
+      "name": "Pink Guardian",
+      "description": "Special boss with enhanced abilities",
+      "type": "pink",
+      "baseHealth": 200,
+      "baseSpeed": 25,
+      "scaleRange": {
+        "min": 1.5,
+        "max": 2.5
+      },
+      "color": "0xff69b4",
+      "abilities": ["extraPowerups"],
+      "image": "boss_pink.png",
+      "sounds": {
+        "spawn": "guardian_appear.mp3",
+        "alive": "guardian_hum_loop.mp3",
+        "death": "guardian_explode.mp3",
+        "spawnVolume": 0.7,
+        "aliveVolume": 0.4,
+        "deathVolume": 0.9
+      },
+      "defeatReward": 100
+    },
+    "purpleLaneSwitcher": {
+      "name": "Purple Phantom",
+      "description": "Final boss with random lane switching",
+      "type": "purple",
+      "baseHealth": 300,
+      "baseSpeed": 15,
+      "scaleRange": {
+        "min": 1.5,
+        "max": 2.5
+      },
+      "color": "0x800080",
+      "abilities": ["laneSwitching", "flashWarning"],
+      "image": "boss_purple.png",
+      "sounds": {
+        "spawn": "phantom_teleport.mp3",
+        "alive": "phantom_echo_loop.mp3",
+        "death": "phantom_vanish.mp3",
+        "spawnVolume": 0.6,
+        "aliveVolume": 0.5,
+        "deathVolume": 0.8
+      },
+      "defeatReward": 200
+    },
+    "goldenTank": {
+      "name": "Golden Tank",
+      "description": "Heavy armored boss with high health",
+      "type": "golden",
+      "baseHealth": 500,
+      "baseSpeed": 10,
+      "scaleRange": {
+        "min": 2.0,
+        "max": 3.0
+      },
+      "color": "0xffd700",
+      "abilities": ["armored", "slowButStrong"],
+      "image": "boss_golden.png",
+      "sounds": {
+        "spawn": "tank_engine_start.mp3",
+        "alive": "tank_engine_loop.mp3",
+        "death": "tank_explosion.mp3",
+        "spawnVolume": 0.9,
+        "aliveVolume": 0.6,
+        "deathVolume": 1.0
+      },
+      "defeatReward": 300
+    }
+  }
+}

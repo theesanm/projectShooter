@@ -1,0 +1,36 @@
+{
+  "scenes": {
+    "forest": {
+      "name": "Enchanted Forest",
+      "description": "Lush green forest with magical elements",
+      "backgroundImage": "forest_background.png",
+      "music": "forest_theme.mp3",
+      "atmosphere": "peaceful",
+      "lanePositions": [0.3, 0.7]
+    },
+    "mountain": {
+      "name": "Mountain Peaks",
+      "description": "Rugged mountain terrain with challenging paths",
+      "backgroundImage": "mountain_background.png",
+      "music": "mountain_theme.mp3",
+      "atmosphere": "challenging",
+      "lanePositions": [0.25, 0.75]
+    },
+    "desert": {
+      "name": "Desert Wasteland",
+      "description": "Harsh desert environment with sandstorms",
+      "backgroundImage": "desert_background.png",
+      "music": "desert_theme.mp3",
+      "atmosphere": "harsh",
+      "lanePositions": [0.3, 0.7]
+    },
+    "castle": {
+      "name": "Ancient Castle",
+      "description": "Medieval castle with stone walls and towers",
+      "backgroundImage": "castle_background.png",
+      "music": "castle_theme.mp3",
+      "atmosphere": "mysterious",
+      "lanePositions": [0.35, 0.65]
+    }
+  }
+}

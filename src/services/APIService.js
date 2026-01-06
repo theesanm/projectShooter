@@ -6,7 +6,38 @@
 class APIService {
   constructor() {
     this.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
-    this.enabled = false; // Set to true when backend is ready
+    this.enabled = true; // Enable API for wave configuration
+  }
+
+  /**
+   * Get wave configuration from backend
+   */
+  async getWaveConfig(waveNumber) {
+    try {
+      const response = await fetch(`${this.baseURL}/waves/${waveNumber}`);
+      if (!response.ok) {
+        throw new Error(`Wave ${waveNumber} not found`);
+      }
+      const data = await response.json();
+      return { success: true, data };
+    } catch (error) {
+      console.error(`[API] Error fetching wave ${waveNumber}:`, error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  /**
+   * Get all enemies
+   */
+  async getEnemies() {
+    try {
+      const response = await fetch(`${this.baseURL}/enemies`);
+      const data = await response.json();
+      return { success: true, data };
+    } catch (error) {
+      console.error('[API] Error fetching enemies:', error);
+      return { success: false, error: error.message };
+    }
   }
 
   /**

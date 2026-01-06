@@ -91,59 +91,7 @@ export default class BootScene extends Phaser.Scene {
       console.log('[BootScene] Created boss_normal texture (55x55)');
     }
     
-    if (!this.textures.exists('boss_pink')) {
-      const graphics = this.add.graphics();
-      
-      // Pink block for special boss - same size as red boss
-      graphics.fillStyle(0xff69b4, 1);
-      graphics.fillRect(0, 0, 55, 55);
-      
-      // Add a big white X in the center for visibility
-      graphics.lineStyle(4, 0xffffff, 1);
-      graphics.lineBetween(11, 11, 44, 44); // Top-left to bottom-right
-      graphics.lineBetween(44, 11, 11, 44); // Top-right to bottom-left
-      
-      // Add pink outline
-      graphics.lineStyle(2, 0xff1493, 1);
-      graphics.strokeRect(0, 0, 55, 55);
-      
-      graphics.generateTexture('boss_pink', 55, 55);
-      graphics.destroy();
-      
-      console.log('[BootScene] Created boss_pink texture (55x55 - same size as red boss)');
-    }
-    
-    if (!this.textures.exists('boss_purple')) {
-      const graphics = this.add.graphics();
-      
-      // Purple block for final boss
-      graphics.fillStyle(0x800080, 1);
-      graphics.fillRect(0, 0, 55, 55);
-      
-      // Add a white star pattern for distinction
-      graphics.lineStyle(3, 0xffffff, 1);
-      // Draw a star shape
-      const centerX = 27.5, centerY = 27.5, radius = 15;
-      for (let i = 0; i < 5; i++) {
-        const angle1 = (i * 72 - 90) * Math.PI / 180;
-        const angle2 = ((i + 1) * 72 - 90) * Math.PI / 180;
-        const x1 = centerX + Math.cos(angle1) * radius;
-        const y1 = centerY + Math.sin(angle1) * radius;
-        const x2 = centerX + Math.cos(angle2) * radius;
-        const y2 = centerY + Math.sin(angle2) * radius;
-        graphics.lineBetween(centerX, centerY, x1, y1);
-        graphics.lineBetween(centerX, centerY, x2, y2);
-      }
-      
-      // Add purple outline
-      graphics.lineStyle(2, 0x4b0082, 1);
-      graphics.strokeRect(0, 0, 55, 55);
-      
-      graphics.generateTexture('boss_purple', 55, 55);
-      graphics.destroy();
-      
-      console.log('[BootScene] Created boss_purple texture (55x55 - final boss with star)');
-    }
+    // Boss textures are now loaded dynamically from database images
     
     // Create bullet texture
     if (!this.textures.exists('bullet')) {

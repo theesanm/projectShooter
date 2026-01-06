@@ -1,0 +1,145 @@
+{
+  "weapons": {
+    "basicPistol": {
+      "name": "Basic Pistol",
+      "description": "Standard sidearm",
+      "type": "weapon",
+      "stats": {
+        "bulletDamage": "+10",
+        "fireRate": "-50",
+        "bulletSpeed": "+50"
+      },
+      "image": "pistol.png",
+      "unlockedByDefault": true,
+      "sounds": {
+        "shoot": "pistol_shot.mp3",
+        "reload": "pistol_reload.mp3",
+        "volume": 0.6
+      }
+    },
+    "rapidFireSMG": {
+      "name": "Rapid Fire SMG",
+      "description": "High fire rate, lower damage",
+      "type": "weapon",
+      "stats": {
+        "bulletDamage": "-5",
+        "fireRate": "-150",
+        "bulletStreams": "+1"
+      },
+      "image": "smg.png",
+      "unlockedByDefault": false,
+      "unlockCost": 300,
+      "sounds": {
+        "shoot": "smg_burst.mp3",
+        "reload": "smg_reload.mp3",
+        "volume": 0.5
+      }
+    },
+    "sniperRifle": {
+      "name": "Sniper Rifle",
+      "description": "Long range, high damage",
+      "type": "weapon",
+      "stats": {
+        "bulletDamage": "+30",
+        "fireRate": "+200",
+        "bulletSpeed": "+200",
+        "bulletStreams": 1
+      },
+      "image": "sniper.png",
+      "unlockedByDefault": false,
+      "unlockCost": 800,
+      "sounds": {
+        "shoot": "sniper_shot.mp3",
+        "reload": "sniper_reload.mp3",
+        "volume": 0.8
+      }
+    },
+    "shotgun": {
+      "name": "Shotgun",
+      "description": "Close range spread damage",
+      "type": "weapon",
+      "stats": {
+        "bulletDamage": "+5",
+        "fireRate": "+100",
+        "bulletStreams": "+4",
+        "spreadAngle": 30
+      },
+      "image": "shotgun.png",
+      "unlockedByDefault": false,
+      "unlockCost": 500,
+      "sounds": {
+        "shoot": "shotgun_blast.mp3",
+        "reload": "shotgun_pump.mp3",
+        "volume": 0.9
+      }
+    },
+    "laserBeam": {
+      "name": "Laser Beam",
+      "description": "Continuous beam weapon",
+      "type": "weapon",
+      "stats": {
+        "bulletDamage": "+2",
+        "fireRate": "-300",
+        "continuous": true,
+        "energyDrain": 1
+      },
+      "image": "laser.png",
+      "unlockedByDefault": false,
+      "unlockCost": 1200,
+      "sounds": {
+        "shoot": "laser_beam_loop.mp3",
+        "overheat": "laser_overheat.mp3",
+        "volume": 0.4
+      }
+    }
+  },
+  "equipment": {
+    "armorVest": {
+      "name": "Armor Vest",
+      "description": "Increases health",
+      "type": "armor",
+      "stats": {
+        "health": "+50"
+      },
+      "image": "armor-vest.png",
+      "unlockedByDefault": false,
+      "unlockCost": 200,
+      "sounds": {
+        "equip": "armor_equip.mp3",
+        "volume": 0.7
+      }
+    },
+    "speedBoots": {
+      "name": "Speed Boots",
+      "description": "Increases movement speed",
+      "type": "boots",
+      "stats": {
+        "movementSpeed": "+50"
+      },
+      "image": "speed-boots.png",
+      "unlockedByDefault": false,
+      "unlockCost": 150,
+      "sounds": {
+        "equip": "boots_equip.mp3",
+        "volume": 0.6
+      }
+    },
+    "energyShield": {
+      "name": "Energy Shield",
+      "description": "Deflects projectiles",
+      "type": "shield",
+      "stats": {
+        "deflectionChance": 0.3,
+        "energyCost": 5
+      },
+      "image": "energy-shield.png",
+      "unlockedByDefault": false,
+      "unlockCost": 600,
+      "sounds": {
+        "equip": "shield_equip.mp3",
+        "deflect": "shield_deflect.mp3",
+        "volume": 0.8
+      }
+    }
+  }
+}
